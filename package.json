@@ -1,0 +1,31 @@
+{
+  "name": "detect-python-interpreter",
+  "description": "Detect the executable python interpreter cmd in $PATH.",
+  "author": "XadillaX <i@233.dev>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XadillaX/detect-python-interpreter.git"
+  },
+  "main": "index.js",
+  "bugs": {
+    "url": "https://github.com/XadillaX/detect-python-interpreter/issues"
+  },
+  "homepage": "https://github.com/XadillaX/detect-python-interpreter#readme",
+  "keywords": [
+    "python"
+  ],
+  "devDependencies": {
+    "egg-bin": "^4.19.0",
+    "eslint": "^8.13.0",
+    "eslint-config-egg": "^11.0.1",
+    "mm": "^3.2.0"
+  },
+  "scripts": {
+    "ci": "npm run lint && npm run cov",
+    "cov": "egg-bin cov",
+    "lint": "eslint .",
+    "postinstall": "rm -f package-lock.json",
+    "test": "egg-bin test"
+  }
+}
