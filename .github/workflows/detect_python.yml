@@ -43,7 +43,7 @@ jobs:
         echo -n "python "  && python  --version || true
         echo -n "python2 " && python2 --version
         echo -n "python3 " && python3 --version || true
-        npm run ci || true
+        npm run ci
 
     # Let's disable Python 2
     - name: "NONE: python 🚫, python2 🚫, python3 🚫"
@@ -53,7 +53,7 @@ jobs:
         echo -n "python "  && python  --version || true
         echo -n "python2 " && python2 --version || true
         echo -n "python3 " && python3 --version || true
-        npm run ci || true
+        npm run ci
 
     # Let's re-enable Python 3
     - name: "Py3 ONLY: python ✅, python2 🚫, python3 ✅"
@@ -63,7 +63,7 @@ jobs:
         echo -n "python "  && python  --version
         echo -n "python2 " && python2 --version || true
         echo -n "python3 " && python3 --version
-        npm run ci || true
+        npm run ci
 
     - name: Coveralls
       uses: coverallsapp/github-action@master
