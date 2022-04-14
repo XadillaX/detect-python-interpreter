@@ -28,7 +28,7 @@ jobs:
     - name: Use Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
-        node-version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.python-version }}
     - run: py --list
     - run: npm install
     - run: npm run ci
