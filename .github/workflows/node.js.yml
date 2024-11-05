@@ -11,14 +11,16 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [14.x, 16.x, 18.x, 20.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         python-version: ["2.7", "3.7", "3.10", "pypy-3.8"]
         # See supported Python release schedule at https://devguide.python.org/#status-of-python-branches
     steps:
+    - name: Setup Homebrew
+      uses: Homebrew/actions/setup-homebrew@master
     - run: brew install python-launcher  # just to ensure this does not create conflicts
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -26,9 +28,26 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Use Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+      if: matrix.python-version != '2.7'
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
+    - name: set up APT
+      if: matrix.python-version == '2.7'
+      run: |
+        printf 'Apt::Install-Recommends "false";\n' | sudo tee -a /etc/apt/apt.conf
+        sudo apt-get update
+    - name: set up Python 2.7 (with APT + get-pip)
+      if: matrix.python-version == '2.7'
+      run: |
+        sudo apt-get install -y python-is-python2 python2-dev
+        wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+        sudo python get-pip.py
+        rm get-pip.py
+    - name: upgrade TLS stack
+      if: matrix.python-version == '2.7'
+      run: |
+        sudo apt-get install --only-upgrade -y ca-certificates libgnutls30
     - run: py --list
     - run: npm install
     - run: npm run ci
